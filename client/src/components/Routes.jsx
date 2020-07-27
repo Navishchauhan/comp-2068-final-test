@@ -47,7 +47,8 @@ function Routes ({user, setUser}) {
           HOWEVER!!!
 
           In your own words, please explain what is happening in the logic below.
-          ANSWER HERE:
+          ANSWER HERE: 
+          These are our routes components. These allow us to define the pattern that we are using to determine which component is being returned.  
         */
       }
       <Route exact path="/tours" render={

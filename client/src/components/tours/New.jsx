@@ -1,6 +1,55 @@
 // Fill in the missing code
+import React, { useState } from 'react';
+import { Form, Container } from 'react-bootstrap';
+import Axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const New = function () {
+
+  const [inputs, setInputs] = useState({
+    title: '',
+    content: '',
+    status: 'DRAFT'
+  });
+
+  const [redirect, setRedirect] = useState(false);
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+
+    try {
+      const resp = await Axios.post('/api/tours', inputs);
+
+      if (resp.status === 200)  {
+        toast("The tour was created successfully", {
+          type: toast.TYPE.SUCCESS
+        });
+        setRedirect(true);
+      } else {
+        toast("There was an issue creating the tour", {
+          type: toast.TYPE.ERROR
+        });
+      }
+    } catch (error) {
+      toast("There was an issue creating the tour", {
+        type: toast.TYPE.ERROR
+      });
+    }
+  };
+
+  const handleInputChange = async event => {
+    event.persist();
+
+    const { name, value } = event.target;
+
+    setInputs(inputs => ({
+      ...inputs,
+      [name]: value
+    }));
+  };
+
+  if (redirect) return (<Redirect to="/tours"/>);
 
   return (
     <Container className="my-5">

@@ -1,6 +1,66 @@
 // Fill in the missing code
+import React, { useState, useEffect } from 'react';
+import { Form, Container } from 'react-bootstrap';
+
+import Axios from 'axios';
+
+import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Edit = function (props) {
+
+  const id = props.location.state.id; 
+
+  const [inputs, setInputs] = useState({
+    title: '',
+    content: '',
+    status: 'DRAFT'
+  });
+
+  const [redirect, setRedirect] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const tourResp = await Axios.get(`/api/tours/${id}`);
+      if (tourResp.status === 200) setInputs(tourResp.data);
+    })();
+  }, []);
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+
+    try {
+      const resp = await Axios.post('/api/tours/update', inputs);
+
+      if (resp.status === 200)  {
+        toast("The tour was updated successfully", {
+          type: toast.TYPE.SUCCESS
+        });
+        setRedirect(true);
+      } else {
+        toast("There was an error updating the tour", {
+          type: toast.TYPE.ERROR
+        });
+      }
+      
+    } catch (error) {
+      toast("There was an error updating the tour", {
+        type: toast.TYPE.ERROR
+      });
+    }
+  };
+
+  const handleInputChange = async event => {
+    event.persist();
+
+    const { name, value } = event.target;
+
+    setInputs(inputs => ({
+      ...inputs,
+      [name]: value
+    }));
+  };
+
+  if (redirect) return (<Redirect to="/tours"/>);
 
   return (
     <Container className="my-5">
@@ -65,6 +125,7 @@ const Edit = function (props) {
       </div>
     </Container>
   );
+
 };
 
 export default Edit;

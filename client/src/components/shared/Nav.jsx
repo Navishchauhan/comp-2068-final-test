@@ -18,6 +18,23 @@ function Nav ({user}) {
           </li>
 
           {/* Need the missing links to the tours and new tour */}
+
+          <li className="nav-item dropdown">
+            <a href="" className="nav-link dropdown-toggle" id="toursDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Tours
+            </a>
+
+            <div className="dropdown-menu" aria-labelledby="toursDropdown">
+              <Link to="/tours" className="dropdown-item">Archive</Link>
+
+            {user ? (
+                <Fragment>
+                  <div className="dropdown-divider"></div>
+                  <Link to="/tours/new" className="dropdown-item">New Tour</Link>
+                </Fragment>
+              ) : null}
+             </div>
+          </li>
         </ul>
       
         <ul className="navbar-nav">

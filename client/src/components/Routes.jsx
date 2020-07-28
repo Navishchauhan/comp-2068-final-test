@@ -10,6 +10,7 @@ import Logout from './sessions/Logout';
 import Tours from './tours/Index';
 import NewTour from './tours/New';
 import EditTour from './tours/Edit';
+
 import { Fragment } from "react";
 
 function Routes ({user, setUser}) {
